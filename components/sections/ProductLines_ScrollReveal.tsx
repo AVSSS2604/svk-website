@@ -48,12 +48,8 @@ export function ProductLines() {
           className="sticky top-0"
           style={{ zIndex: i + 1 }}
         >
-          <motion.div
+          <div
             className="relative h-[85vh] min-h-[600px] overflow-hidden"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8 }}
           >
             {/* Background Image */}
             <Image
@@ -115,7 +111,7 @@ export function ProductLines() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       ))}
     </section>

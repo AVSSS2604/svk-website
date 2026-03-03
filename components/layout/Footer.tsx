@@ -103,17 +103,6 @@ export function Footer() {
           <p className="text-xs text-white/40">
             &copy; {new Date().getFullYear()} СВК. Усі права захищені.
           </p>
-          <p className="text-xs text-white/30">
-            Розроблено{" "}
-            <a
-              href="https://vortexsite.tech"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white/40 transition-colors hover:text-brand"
-            >
-              VORTEX
-            </a>
-          </p>
         </div>
       </div>
     </footer>
