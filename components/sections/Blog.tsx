@@ -4,38 +4,19 @@ import Image from "next/image";
 import { ArrowRight, Calendar } from "lucide-react";
 import { motion } from "motion/react";
 import { FadeIn } from "@/components/ui/motion";
+import { useI18n } from "@/lib/i18n";
 
-const posts = [
-  {
-    title: "Тренди промислової хімії 2026: що змінюється",
-    excerpt:
-      "Огляд ключових тенденцій у галузі промислової хімії: екологічність, біорозкладність та нові стандарти безпеки.",
-    category: "Індустрія",
-    date: "28 лютого 2026",
-    image: "/images/blog/post-1.jpg",
-    categoryColor: "bg-blue-500",
-  },
-  {
-    title: "Private Label: як запустити власну лінійку за 30 днів",
-    excerpt:
-      "Покроковий гайд по створенню власного бренду побутової хімії або косметики — від ідеї до полиці магазину.",
-    category: "Бізнес",
-    date: "15 лютого 2026",
-    image: "/images/blog/post-2.jpg",
-    categoryColor: "bg-emerald-500",
-  },
-  {
-    title: "Контроль якості: як працює лабораторія СВК",
-    excerpt:
-      "Які тести проходить кожна формула перед запуском у серійне виробництво.",
-    category: "Виробництво",
-    date: "3 лютого 2026",
-    image: "/images/blog/post-3.jpg",
-    categoryColor: "bg-purple-500",
-  },
+const postsData = [
+  { image: "/images/blog/post-1.jpg", categoryColor: "bg-blue-500" },
+  { image: "/images/blog/post-2.jpg", categoryColor: "bg-emerald-500" },
+  { image: "/images/blog/post-3.jpg", categoryColor: "bg-purple-500" },
 ];
 
 export function Blog() {
+  const { t } = useI18n();
+  const postTexts = t("home.blog.posts") as { title: string; excerpt: string; category: string; date: string }[];
+  const posts = postsData.map((p, i) => ({ ...p, ...postTexts[i] }));
+
   return (
     <section id="blog" className="bg-background py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -44,22 +25,21 @@ export function Blog() {
           <div>
             <FadeIn>
               <h2 className="mb-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                Новини та аналітика
+                {t("home.blog.title")}
               </h2>
             </FadeIn>
             <FadeIn delay={0.15}>
               <p className="max-w-lg text-foreground-secondary">
-                Експертні матеріали про хімічну промисловість,
-                тренди ринку та виробничі інсайти.
+                {t("home.blog.subtitle")}
               </p>
             </FadeIn>
           </div>
           <FadeIn delay={0.2}>
             <a
-              href="#"
+              href="/blog"
               className="group inline-flex items-center gap-2 rounded-full border border-brand/20 px-5 py-2.5 text-sm font-semibold text-brand transition-all hover:bg-brand hover:text-white"
             >
-              Усі статті
+              {t("home.blog.allArticles")}
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
             </a>
           </FadeIn>
@@ -108,7 +88,7 @@ export function Blog() {
                 </p>
 
                 <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand transition-all group-hover:gap-2">
-                  Читати далі
+                  {t("home.blog.readMore")}
                   <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                 </span>
               </div>

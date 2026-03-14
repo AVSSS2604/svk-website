@@ -5,12 +5,13 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 import { useCountUp } from "@/lib/hooks";
 import { MolecularDecoration } from "@/components/ui/molecular";
+import { useI18n } from "@/lib/i18n";
 
-const stats = [
-  { target: 30, suffix: "+", label: "років досвіду" },
-  { target: 2000, suffix: "+", label: "успішних проєктів" },
-  { target: 10000, suffix: "", label: "тон продукції / міс" },
-  { target: 300, suffix: "+", label: "формул у портфелі" },
+const statsData = [
+  { target: 30, suffix: "+" },
+  { target: 2000, suffix: "+" },
+  { target: 10000, suffix: "" },
+  { target: 300, suffix: "+" },
 ];
 
 function StatCounter({
@@ -43,6 +44,10 @@ function StatCounter({
 }
 
 export function Hero() {
+  const { t } = useI18n();
+  const statsTexts = t("home.hero.stats") as { label: string }[];
+  const stats = statsData.map((s, i) => ({ ...s, label: statsTexts[i].label }));
+
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#0a1628]">
       {/* Background Image */}
@@ -76,76 +81,80 @@ export function Hero() {
       <MolecularDecoration className="absolute right-20 top-1/4 opacity-20" />
 
       {/* Content */}
-      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center px-6 lg:px-8">
-        <div className="max-w-2xl py-32">
-          {/* Badge */}
-          <motion.div
-            className="mb-8"
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur-sm">
-              <div className="h-1.5 w-1.5 rounded-full bg-brand animate-pulse" />
-              <span className="text-xs font-medium text-white/70">
-                Науково-виробнича фірма з 1993 року
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col justify-between px-6 lg:px-8">
+        {/* Top spacer for header */}
+        <div className="h-20" />
+
+        {/* Main content — vertically centered */}
+        <div className="flex flex-1 items-center">
+          <div className="max-w-2xl">
+            {/* Badge */}
+            <motion.div
+              className="mb-8"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur-sm">
+                <div className="h-1.5 w-1.5 rounded-full bg-brand animate-pulse" />
+                <span className="text-xs font-medium text-white/70">
+                  {t("home.hero.badge")}
+                </span>
+              </div>
+            </motion.div>
+
+            {/* Headline — fixed height zone to prevent layout shift across languages */}
+            <motion.h1
+              className="mb-6 min-h-[4.6em] text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl xl:text-7xl"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.35 }}
+            >
+              {t("home.hero.title")}{" "}
+              <span className="bg-gradient-to-r from-[#059CD5] to-[#38BDF8] bg-clip-text text-transparent">
+                {t("home.hero.titleHighlight")}
               </span>
-            </div>
-          </motion.div>
+            </motion.h1>
 
-          {/* Headline */}
-          <motion.h1
-            className="mb-6 text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl xl:text-7xl"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35 }}
-          >
-            Хімічні рішення
-            <br />
-            <span className="bg-gradient-to-r from-[#059CD5] to-[#38BDF8] bg-clip-text text-transparent">
-              для вашого бізнесу
-            </span>
-          </motion.h1>
-
-          {/* Subtitle */}
-          <motion.p
-            className="mb-10 max-w-lg text-lg leading-relaxed text-white/70"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-          >
-            Індивідуальні формули, стабільна якість, масштабне виробництво.
-            Від ідеї до готового продукту — 300+ перевірених рішень.
-          </motion.p>
-
-          {/* CTAs */}
-          <motion.div
-            className="mb-16 flex flex-wrap items-center gap-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            <a
-              href="#contact"
-              className="group inline-flex h-13 items-center gap-2.5 rounded-full bg-brand px-8 text-sm font-semibold uppercase tracking-wider text-white shadow-lg shadow-brand/30 transition-all hover:bg-brand-dark hover:shadow-xl hover:shadow-brand/40"
+            {/* Subtitle */}
+            <motion.p
+              className="mb-10 max-w-lg text-lg leading-relaxed text-white/70"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
             >
-              Замовити консультацію
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-            </a>
-            <a
-              href="#catalog"
-              className="inline-flex h-13 items-center rounded-full border border-white/20 px-8 text-sm font-semibold uppercase tracking-wider text-white/90 backdrop-blur-sm transition-all hover:border-white/40 hover:bg-white/10"
-            >
-              Каталог продукції
-            </a>
-          </motion.div>
+              {t("home.hero.subtitle")}
+            </motion.p>
 
-          {/* Stats Row */}
-          <div className="flex flex-wrap gap-8">
-            {stats.map((stat, i) => (
-              <StatCounter key={stat.label} {...stat} delay={0.7 + i * 0.1} />
-            ))}
+            {/* CTAs */}
+            <motion.div
+              className="flex flex-wrap items-center gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              <a
+                href="#contact"
+                className="group inline-flex h-13 items-center gap-2.5 rounded-full bg-brand px-8 text-sm font-semibold uppercase tracking-wider text-white shadow-lg shadow-brand/30 transition-all hover:bg-brand-dark hover:shadow-xl hover:shadow-brand/40"
+              >
+                {t("home.hero.ctaPrimary")}
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </a>
+              <a
+                href="#catalog"
+                className="inline-flex h-13 items-center rounded-full border border-white/20 px-8 text-sm font-semibold uppercase tracking-wider text-white/90 backdrop-blur-sm transition-all hover:border-white/40 hover:bg-white/10"
+              >
+                {t("home.hero.ctaSecondary")}
+              </a>
+            </motion.div>
           </div>
+        </div>
+
+        {/* Stats Row — always pinned to bottom */}
+        <div className="flex flex-wrap gap-8 pb-12 lg:pb-16">
+          {stats.map((stat, i) => (
+            <StatCounter key={stat.label} {...stat} delay={0.7 + i * 0.1} />
+          ))}
         </div>
       </div>
 

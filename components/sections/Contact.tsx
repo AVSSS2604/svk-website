@@ -4,8 +4,10 @@ import Image from "next/image";
 import { Mail, Phone, MapPin, Clock, Send, ArrowRight } from "lucide-react";
 import { motion } from "motion/react";
 import { FadeIn } from "@/components/ui/motion";
+import { useI18n } from "@/lib/i18n";
 
 export function Contact() {
+  const { t } = useI18n();
   return (
     <section id="contact" className="relative overflow-hidden bg-surface py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -13,13 +15,12 @@ export function Contact() {
         <div className="mb-16 text-center">
           <FadeIn>
             <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-              Розпочніть співпрацю
+              {t("home.contact.title")}
             </h2>
           </FadeIn>
           <FadeIn delay={0.15}>
             <p className="mx-auto max-w-2xl text-foreground-secondary">
-              Опишіть задачу — і отримайте комерційну пропозицію
-              з розрахунком вартості та термінів протягом 24 годин.
+              {t("home.contact.subtitle")}
             </p>
           </FadeIn>
         </div>
@@ -57,16 +58,15 @@ export function Contact() {
                     </div>
                     <div>
                       <p className="font-semibold text-foreground">
-                        Менеджер з продажу
+                        {t("home.contact.managerTitle")}
                       </p>
                       <p className="text-sm text-foreground-muted">
-                        Комерційний відділ
+                        {t("home.contact.managerDept")}
                       </p>
                     </div>
                   </div>
                   <p className="text-sm leading-relaxed text-foreground-secondary">
-                    Готовий відповісти на питання щодо продукції, розрахувати
-                    вартість та обговорити умови співпраці.
+                    {t("home.contact.managerDesc")}
                   </p>
                 </div>
               </div>
@@ -84,7 +84,7 @@ export function Contact() {
                     <p className="text-sm font-semibold text-foreground">
                       +380 (XX) XXX-XX-XX
                     </p>
-                    <p className="text-xs text-foreground-muted">Телефон</p>
+                    <p className="text-xs text-foreground-muted">{t("home.contact.phone")}</p>
                   </div>
                   <ArrowRight className="h-4 w-4 text-foreground-muted transition-transform group-hover:translate-x-1 group-hover:text-brand" />
                 </a>
@@ -100,7 +100,7 @@ export function Contact() {
                     <p className="text-sm font-semibold text-foreground">
                       info@svk.ua
                     </p>
-                    <p className="text-xs text-foreground-muted">Email</p>
+                    <p className="text-xs text-foreground-muted">{t("home.contact.email")}</p>
                   </div>
                   <ArrowRight className="h-4 w-4 text-foreground-muted transition-transform group-hover:translate-x-1 group-hover:text-brand" />
                 </a>
@@ -111,9 +111,9 @@ export function Contact() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-foreground">
-                      Україна, м. Київ
+                      {t("home.contact.office")}
                     </p>
-                    <p className="text-xs text-foreground-muted">Офіс та виробництво</p>
+                    <p className="text-xs text-foreground-muted">{t("home.contact.office")}</p>
                   </div>
                 </div>
 
@@ -123,9 +123,9 @@ export function Contact() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-foreground">
-                      Пн — Пт: 9:00 — 18:00
+                      {t("home.contact.schedule")}
                     </p>
-                    <p className="text-xs text-foreground-muted">Графік роботи</p>
+                    <p className="text-xs text-foreground-muted">{t("home.contact.scheduleLabel")}</p>
                   </div>
                 </div>
               </div>
@@ -142,10 +142,10 @@ export function Contact() {
           >
             <form className="rounded-3xl border border-border bg-white p-8 shadow-lg shadow-black/5">
               <h3 className="mb-2 text-xl font-bold text-foreground">
-                Залишити заявку
+                {t("home.contact.formTitle")}
               </h3>
               <p className="mb-8 text-sm text-foreground-muted">
-                Заповніть форму і отримайте відповідь протягом 24 годин
+                {t("home.contact.formSubtitle")}
               </p>
 
               <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -154,14 +154,14 @@ export function Contact() {
                     htmlFor="name"
                     className="mb-2 block text-sm font-medium text-foreground"
                   >
-                    Ім&apos;я
+                    {t("home.contact.nameLabel")}
                   </label>
                   <input
                     id="name"
                     name="name"
                     type="text"
                     required
-                    placeholder="Ваше ім'я"
+                    placeholder={t("home.contact.namePlaceholder") as string}
                     className="h-12 w-full rounded-xl border border-border bg-surface px-4 text-sm text-foreground outline-none transition-all placeholder:text-foreground-muted focus:border-brand focus:ring-2 focus:ring-brand/20"
                   />
                 </div>
@@ -171,14 +171,14 @@ export function Contact() {
                     htmlFor="email"
                     className="mb-2 block text-sm font-medium text-foreground"
                   >
-                    Email
+                    {t("home.contact.emailLabel")}
                   </label>
                   <input
                     id="email"
                     name="email"
                     type="email"
                     required
-                    placeholder="email@company.com"
+                    placeholder={t("home.contact.emailPlaceholder") as string}
                     className="h-12 w-full rounded-xl border border-border bg-surface px-4 text-sm text-foreground outline-none transition-all placeholder:text-foreground-muted focus:border-brand focus:ring-2 focus:ring-brand/20"
                   />
                 </div>
@@ -188,13 +188,13 @@ export function Contact() {
                     htmlFor="phone"
                     className="mb-2 block text-sm font-medium text-foreground"
                   >
-                    Телефон
+                    {t("home.contact.phoneLabel")}
                   </label>
                   <input
                     id="phone"
                     name="phone"
                     type="tel"
-                    placeholder="+380"
+                    placeholder={t("home.contact.phonePlaceholder") as string}
                     className="h-12 w-full rounded-xl border border-border bg-surface px-4 text-sm text-foreground outline-none transition-all placeholder:text-foreground-muted focus:border-brand focus:ring-2 focus:ring-brand/20"
                   />
                 </div>
@@ -204,13 +204,13 @@ export function Contact() {
                     htmlFor="company"
                     className="mb-2 block text-sm font-medium text-foreground"
                   >
-                    Компанія
+                    {t("home.contact.companyLabel")}
                   </label>
                   <input
                     id="company"
                     name="company"
                     type="text"
-                    placeholder="Назва компанії"
+                    placeholder={t("home.contact.companyPlaceholder") as string}
                     className="h-12 w-full rounded-xl border border-border bg-surface px-4 text-sm text-foreground outline-none transition-all placeholder:text-foreground-muted focus:border-brand focus:ring-2 focus:ring-brand/20"
                   />
                 </div>
@@ -221,14 +221,14 @@ export function Contact() {
                   htmlFor="message"
                   className="mb-2 block text-sm font-medium text-foreground"
                 >
-                  Повідомлення
+                  {t("home.contact.messageLabel")}
                 </label>
                 <textarea
                   id="message"
                   name="message"
                   required
                   rows={4}
-                  placeholder="Опишіть вашу задачу: тип продукту, приблизні обсяги, вимоги..."
+                  placeholder={t("home.contact.messagePlaceholder") as string}
                   className="w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm text-foreground outline-none transition-all placeholder:text-foreground-muted focus:border-brand focus:ring-2 focus:ring-brand/20 resize-none"
                 />
               </div>
@@ -238,11 +238,11 @@ export function Contact() {
                 className="mt-6 inline-flex h-13 w-full items-center justify-center gap-2 rounded-xl bg-brand text-sm font-semibold text-white shadow-lg shadow-brand/20 transition-all hover:bg-brand-dark hover:shadow-xl hover:shadow-brand/30 sm:w-auto sm:px-10"
               >
                 <Send className="h-4 w-4" />
-                Надіслати заявку
+                {t("home.contact.submit")}
               </button>
 
               <p className="mt-4 text-xs text-foreground-muted">
-                Натискаючи кнопку, ви погоджуєтесь з обробкою персональних даних
+                {t("home.contact.consent")}
               </p>
             </form>
           </motion.div>

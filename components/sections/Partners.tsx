@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { FadeIn } from "@/components/ui/motion";
+import { useI18n } from "@/lib/i18n";
 
 const partners = [
   { name: "Prostor", logo: "/images/partners/prostor-logo.svg" },
@@ -11,6 +12,7 @@ const partners = [
 ];
 
 export function Partners() {
+  const { t } = useI18n();
   // Quadruple for seamless scroll
   const allPartners = [...partners, ...partners, ...partners, ...partners];
 
@@ -20,13 +22,12 @@ export function Partners() {
         {/* Header */}
         <FadeIn className="mb-6 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-            Довіра провідних компаній
+            {t("home.partners.title")}
           </h2>
         </FadeIn>
         <FadeIn className="mb-16 text-center" delay={0.15}>
           <p className="mx-auto max-w-2xl text-foreground-secondary">
-            Продукція СВК представлена на полицях найбільших торговельних мереж
-            України та використовується промисловими підприємствами по всій країні.
+            {t("home.partners.subtitle")}
           </p>
         </FadeIn>
       </div>
@@ -58,8 +59,7 @@ export function Partners() {
       {/* Trust message */}
       <FadeIn className="mt-12 text-center" delay={0.3}>
         <p className="text-sm text-foreground-muted">
-          Та понад <span className="font-semibold text-foreground">200+</span> інших компаній,
-          які довіряють СВК свої проєкти
+          {t("home.partners.trust")}
         </p>
       </FadeIn>
     </section>

@@ -1,27 +1,79 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { usePathname } from "next/navigation";
+import { useI18n } from "@/lib/i18n";
 
-const sections = [
-  { id: "hero", label: "Головна" },
-  { id: "products", label: "Продукція" },
-  { id: "why-svk", label: "Переваги" },
-  { id: "results", label: "Результати" },
-  { id: "partners", label: "Партнери" },
-  { id: "catalog", label: "Каталог" },
-  { id: "process", label: "Процес" },
-  { id: "blog", label: "Блог" },
-  { id: "contact", label: "Контакти" },
-];
+/* Section configs per page */
+const pageSections: Record<string, { id: string; key: string }[]> = {
+  "/": [
+    { id: "hero", key: "sideNav.hero" },
+    { id: "products", key: "sideNav.products" },
+    { id: "why-svk", key: "sideNav.whySvk" },
+    { id: "results", key: "sideNav.results" },
+    { id: "partners", key: "sideNav.partners" },
+    { id: "catalog", key: "sideNav.catalog" },
+    { id: "process", key: "sideNav.process" },
+    { id: "blog", key: "sideNav.blog" },
+    { id: "contact", key: "sideNav.contact" },
+  ],
+};
 
 export function SideNav() {
-  const [activeSection, setActiveSection] = useState("hero");
+  const { t } = useI18n();
+  const pathname = usePathname();
+
+  /* Detect page sections from DOM on inner pages */
+  const [dynamicSections, setDynamicSections] = useState<
+    { id: string; label: string }[]
+  >([]);
+
+  const configSections = pageSections[pathname];
+
+  const sections = useMemo(() => {
+    if (configSections) {
+      return configSections.map((s) => ({ id: s.id, label: t(s.key) }));
+    }
+    return dynamicSections;
+  }, [configSections, dynamicSections, t]);
+
+  const [activeSection, setActiveSection] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
+  /* On inner pages, scan DOM for <section id="..."> elements */
   useEffect(() => {
+    if (configSections) return; // homepage uses static config
+    const timer = setTimeout(() => {
+      const found: { id: string; label: string }[] = [];
+      document.querySelectorAll("section[id]").forEach((el) => {
+        const id = el.getAttribute("id");
+        if (id) {
+          /* Try to find the first heading inside the section */
+          const heading = el.querySelector("h2, h3, h1");
+          const headingText = heading?.textContent?.trim();
+          /* Use first 2 words from heading, or prettified id */
+          const label = headingText
+            ? headingText.split(/\s+/).slice(0, 3).join(" ")
+            : id.replace(/-/g, " ").replace(/^\w/, (c) => c.toUpperCase());
+          found.push({ id, label });
+        }
+      });
+      setDynamicSections(found);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [pathname, configSections]);
+
+  /* Reset active section on page change */
+  useEffect(() => {
+    setActiveSection("");
+    setIsVisible(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (sections.length === 0) return;
+
     const handleScroll = () => {
       setIsVisible(window.scrollY > 300);
-
       const scrollPosition = window.scrollY + window.innerHeight / 3;
 
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -34,10 +86,11 @@ export function SideNav() {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // run once on mount
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [sections]);
 
-  if (!isVisible) return null;
+  if (!isVisible || sections.length === 0) return null;
 
   return (
     <nav className="fixed right-6 top-1/2 z-40 hidden -translate-y-1/2 xl:flex">

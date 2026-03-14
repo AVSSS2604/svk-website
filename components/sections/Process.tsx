@@ -10,41 +10,19 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 import { FadeIn } from "@/components/ui/motion";
+import { useI18n } from "@/lib/i18n";
 
-const steps = [
-  {
-    icon: FileText,
-    title: "Заявка",
-    description: "Опишіть задачу — тип продукту, обсяги, вимоги",
-  },
-  {
-    icon: Search,
-    title: "Аналіз",
-    description: "Вивчення потреб, аналіз ринку та підбір рішення",
-  },
-  {
-    icon: Beaker,
-    title: "Розробка",
-    description: "Створення формули, підбір компонентів у лабораторії",
-  },
-  {
-    icon: TestTubeDiagonal,
-    title: "Тестування",
-    description: "Контроль якості, тестування ефективності та безпеки",
-  },
-  {
-    icon: Factory,
-    title: "Виробництво",
-    description: "Масштабування, фасування та пакування продукції",
-  },
-  {
-    icon: Truck,
-    title: "Поставка",
-    description: "Доставка готової продукції за узгодженим графіком",
-  },
-];
+const stepIcons = [FileText, Search, Beaker, TestTubeDiagonal, Factory, Truck];
 
 export function Process() {
+  const { t } = useI18n();
+  const stepTexts = t("home.process.steps") as { title: string; description: string }[];
+  const steps = stepIcons.map((icon, i) => ({
+    icon,
+    title: stepTexts[i].title,
+    description: stepTexts[i].description,
+  }));
+
   return (
     <section id="process" className="bg-surface py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -52,13 +30,12 @@ export function Process() {
         <div className="mb-16 text-center">
           <FadeIn>
             <h2 className="mb-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-              Від заявки до готового продукту
+              {t("home.process.title")}
             </h2>
           </FadeIn>
           <FadeIn delay={0.15}>
             <p className="mx-auto max-w-2xl text-foreground-secondary">
-              Прозорий та відпрацьований процес, який забезпечує
-              передбачуваний результат на кожному етапі.
+              {t("home.process.subtitle")}
             </p>
           </FadeIn>
         </div>
@@ -109,7 +86,7 @@ export function Process() {
           <div className="inline-flex items-center gap-3 rounded-full border border-brand/20 bg-brand-light px-6 py-3">
             <div className="h-2 w-2 animate-pulse rounded-full bg-brand" />
             <span className="text-sm font-semibold text-brand-dark">
-              Середній термін від заявки до першої партії — 30 днів
+              {t("home.process.note")}
             </span>
           </div>
         </FadeIn>

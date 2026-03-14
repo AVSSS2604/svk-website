@@ -4,56 +4,17 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import Image from "next/image";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { FadeIn } from "@/components/ui/motion";
+import { useI18n } from "@/lib/i18n";
 
-const products = [
-  {
-    title: "COLOR SUPER WASH",
-    category: "Побутова хімія",
-    image: "/images/products/svk-main.png",
-    categoryColor: "bg-emerald-500",
-  },
-  {
-    title: "Промисловий знежирювач",
-    category: "Промислова хімія",
-    image: "/images/products/bottle-left.png",
-    categoryColor: "bg-blue-500",
-  },
-  {
-    title: "Шампунь відновлюючий",
-    category: "Косметика",
-    image: "/images/products/shampoo-left.png",
-    categoryColor: "bg-purple-500",
-  },
-  {
-    title: "GLASS MIRROR CLEANER",
-    category: "Побутова хімія",
-    image: "/images/products/cleaner-right.png",
-    categoryColor: "bg-emerald-500",
-  },
-  {
-    title: "Рідке мило",
-    category: "Косметика",
-    image: "/images/products/soap-right.png",
-    categoryColor: "bg-purple-500",
-  },
-  {
-    title: "Засіб для підлоги",
-    category: "Побутова хімія",
-    image: "/images/product-1.png",
-    categoryColor: "bg-emerald-500",
-  },
-  {
-    title: "Засіб для скла",
-    category: "Побутова хімія",
-    image: "/images/product-2.png",
-    categoryColor: "bg-emerald-500",
-  },
-  {
-    title: "Відбілювач промисловий",
-    category: "Промислова хімія",
-    image: "/images/product-3.png",
-    categoryColor: "bg-blue-500",
-  },
+const productsData = [
+  { image: "/images/products/svk-main.png", categoryColor: "bg-emerald-500" },
+  { image: "/images/products/bottle-left.png", categoryColor: "bg-blue-500" },
+  { image: "/images/products/shampoo-left.png", categoryColor: "bg-purple-500" },
+  { image: "/images/products/cleaner-right.png", categoryColor: "bg-emerald-500" },
+  { image: "/images/products/soap-right.png", categoryColor: "bg-purple-500" },
+  { image: "/images/product-1.png", categoryColor: "bg-emerald-500" },
+  { image: "/images/product-2.png", categoryColor: "bg-emerald-500" },
+  { image: "/images/product-3.png", categoryColor: "bg-blue-500" },
 ];
 
 function ProductCard({
@@ -61,7 +22,12 @@ function ProductCard({
   category,
   image,
   categoryColor,
-}: (typeof products)[0]) {
+}: {
+  title: string;
+  category: string;
+  image: string;
+  categoryColor: string;
+}) {
   return (
     <div className="group w-[280px] flex-shrink-0 select-none">
       {/* Image */}
@@ -90,6 +56,10 @@ function ProductCard({
 }
 
 export function CatalogPreview() {
+  const { t } = useI18n();
+  const itemTexts = t("home.catalogPreview.items") as { name: string; category: string }[];
+  const products = productsData.map((p, i) => ({ ...p, title: itemTexts[i].name, category: itemTexts[i].category }));
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -215,13 +185,12 @@ export function CatalogPreview() {
           <div>
             <FadeIn>
               <h2 className="mb-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                Продукція СВК
+                {t("home.catalogPreview.title")}
               </h2>
             </FadeIn>
             <FadeIn delay={0.15}>
               <p className="max-w-lg text-foreground-secondary">
-                Понад 300 готових формул. Кожен продукт розроблений та
-                протестований у власній лабораторії.
+                {t("home.catalogPreview.subtitle")}
               </p>
             </FadeIn>
           </div>
@@ -231,7 +200,7 @@ export function CatalogPreview() {
                 onClick={() => scrollBy("left")}
                 disabled={!canScrollLeft}
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface text-foreground transition-all hover:bg-surface-alt disabled:opacity-30 disabled:hover:bg-surface"
-                aria-label="Scroll left"
+                aria-label={t("home.catalogPreview.scrollLeft") as string}
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -239,7 +208,7 @@ export function CatalogPreview() {
                 onClick={() => scrollBy("right")}
                 disabled={!canScrollRight}
                 className="flex h-11 w-11 items-center justify-center rounded-full border border-border bg-surface text-foreground transition-all hover:bg-surface-alt disabled:opacity-30 disabled:hover:bg-surface"
-                aria-label="Scroll right"
+                aria-label={t("home.catalogPreview.scrollRight") as string}
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
@@ -247,7 +216,7 @@ export function CatalogPreview() {
                 href="#"
                 className="group inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-brand-dark hover:shadow-lg hover:shadow-brand/20"
               >
-                Повний каталог
+                {t("home.catalogPreview.fullCatalog")}
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </a>
             </div>

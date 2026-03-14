@@ -5,39 +5,20 @@ import { Microscope, Zap, Beaker, TrendingUp } from "lucide-react";
 import { motion } from "motion/react";
 import { FadeIn } from "@/components/ui/motion";
 import { MolecularDecorationLight } from "@/components/ui/molecular";
+import { useI18n } from "@/lib/i18n";
 
-const differentiators = [
-  {
-    icon: Microscope,
-    title: "Власна лабораторія",
-    description:
-      "Сертифікована лабораторія з сучасним обладнанням. Багатоступеневий контроль якості кожної формули.",
-    stat: "ISO 9001",
-  },
-  {
-    icon: Zap,
-    title: "Швидкість розробки",
-    description:
-      "Від заявки до готового зразка — 14 днів. Швидке прототипування та тестування.",
-    stat: "14 днів",
-  },
-  {
-    icon: Beaker,
-    title: "Індивідуальні формули",
-    description:
-      "Розробка унікальних формул під конкретні задачі бізнесу. Адаптація під специфіку галузі.",
-    stat: "300+",
-  },
-  {
-    icon: TrendingUp,
-    title: "Масштаб виробництва",
-    description:
-      "Потужне виробництво забезпечує стабільні поставки будь-яких обсягів без зривів термінів.",
-    stat: "5M / міс",
-  },
-];
+const differentiatorIcons = [Microscope, Zap, Beaker, TrendingUp];
 
 export function WhySVK() {
+  const { t } = useI18n();
+  const itemTexts = t("home.whySvk.items") as { title: string; description: string; stat: string }[];
+  const differentiators = differentiatorIcons.map((icon, i) => ({
+    icon,
+    title: itemTexts[i].title,
+    description: itemTexts[i].description,
+    stat: itemTexts[i].stat,
+  }));
+
   return (
     <section id="why-svk" className="relative overflow-hidden bg-surface py-24">
       {/* Decorations */}
@@ -68,9 +49,7 @@ export function WhySVK() {
               >
                 <p className="mb-1 font-mono text-3xl font-bold text-brand">30+</p>
                 <p className="text-sm font-medium text-foreground-secondary">
-                  Років безперервної
-                  <br />
-                  роботи на ринку
+                  {t("home.whySvk.statLabel")}
                 </p>
               </motion.div>
             </div>
@@ -80,14 +59,12 @@ export function WhySVK() {
           <div>
             <FadeIn>
               <h2 className="mb-6 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                Чому обирають{" "}
-                <span className="text-brand">СВК</span>
+                {t("home.whySvk.title")}
               </h2>
             </FadeIn>
             <FadeIn delay={0.15}>
               <p className="mb-10 text-lg text-foreground-secondary">
-                30+ років стабільної роботи — це не випадковість.
-                Кожен аспект виробництва побудований на досвіді та науковому підході.
+                {t("home.whySvk.subtitle")}
               </p>
             </FadeIn>
 

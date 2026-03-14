@@ -3,43 +3,20 @@
 import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { motion } from "motion/react";
+import { useI18n } from "@/lib/i18n";
 
-const products = [
-  {
-    title: "Промислова хімія",
-    description:
-      "Мийні та дезінфікуючі засоби для харчової промисловості, HoReCa, виробничих підприємств. Сертифіковані формули з доведеною ефективністю.",
-    image: "/images/about/card-1.jpg",
-    badge: "B2B",
-    accent: "from-blue-900/80 via-blue-900/60 to-transparent",
-  },
-  {
-    title: "Побутова хімія",
-    description:
-      "Засоби для прання, прибирання, миття посуду. Безпечні формули для щоденного використання з високою ефективністю.",
-    image: "/images/about/card-4.jpg",
-    badge: "B2C",
-    accent: "from-emerald-900/80 via-emerald-900/60 to-transparent",
-  },
-  {
-    title: "Косметика",
-    description:
-      "Засоби по догляду за тілом та волоссям з урахуванням останніх наукових досліджень та актуальних трендів.",
-    image: "/images/about/card-3.jpg",
-    badge: "Beauty",
-    accent: "from-purple-900/80 via-purple-900/60 to-transparent",
-  },
-  {
-    title: "Private Label",
-    description:
-      "Повний цикл від розробки формули до готового продукту під вашим брендом. Мінімальне замовлення — від 1000 одиниць.",
-    image: "/images/pl/pl-main.jpg",
-    badge: "White Label",
-    accent: "from-amber-900/80 via-amber-900/60 to-transparent",
-  },
+const productsData = [
+  { image: "/images/about/card-1.jpg", accent: "from-blue-900/80 via-blue-900/60 to-transparent" },
+  { image: "/images/about/card-4.jpg", accent: "from-emerald-900/80 via-emerald-900/60 to-transparent" },
+  { image: "/images/about/card-3.jpg", accent: "from-purple-900/80 via-purple-900/60 to-transparent" },
+  { image: "/images/pl/pl-main.jpg", accent: "from-amber-900/80 via-amber-900/60 to-transparent" },
 ];
 
 export function ProductLines() {
+  const { t } = useI18n();
+  const itemTexts = t("home.products.items") as { title: string; description: string; badge: string }[];
+  const products = productsData.map((p, i) => ({ ...p, title: itemTexts[i].title, description: itemTexts[i].description, badge: itemTexts[i].badge }));
+
   return (
     <section id="products" className="bg-background">
       {products.map((product, i) => (
@@ -93,7 +70,7 @@ export function ProductLines() {
                     href="#"
                     className="group inline-flex items-center gap-2 text-sm font-semibold text-white transition-all hover:gap-3"
                   >
-                    Детальніше
+                    {t("home.products.detailsLink")}
                     <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
                 </motion.div>

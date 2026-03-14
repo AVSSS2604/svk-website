@@ -14,6 +14,7 @@ import {
   CheckCircle2,
   TrendingUp,
 } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 /* ─── Animated Progress Bar ─────────────────────────────────── */
 
@@ -119,11 +120,11 @@ function AnimatedRing({
 
 /* ─── Main Stats Data ────────────────────────────────────────── */
 
-const mainStats = [
-  { target: 30, suffix: "+", label: "Років на ринку" },
-  { target: 2000, suffix: "+", label: "Успішних проєктів" },
-  { target: 10000, suffix: "", label: "Тон продукції / місяць" },
-  { target: 300, suffix: "+", label: "Формул у портфелі" },
+const mainStatsData = [
+  { target: 30, suffix: "+" },
+  { target: 2000, suffix: "+" },
+  { target: 10000, suffix: "" },
+  { target: 300, suffix: "+" },
 ];
 
 /* ─── Stat Counter ────────────────────────────────────────────── */
@@ -185,6 +186,11 @@ function DashboardCard({
 /* ─── Results Section (Dark full-width) ──────────────────────── */
 
 export function Results() {
+  const { t } = useI18n();
+  const statsTexts = t("home.results.stats") as { label: string }[];
+  const mainStats = mainStatsData.map((s, i) => ({ ...s, label: statsTexts[i].label }));
+  const labItems = t("home.results.labItems") as string[];
+
   return (
     <section id="results" className="relative overflow-hidden bg-[#0a1628] py-24">
       {/* Background Image */}
@@ -205,13 +211,12 @@ export function Results() {
         {/* Header */}
         <FadeIn className="mb-6 text-center">
           <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Цифри, які говорять самі за себе
+            {t("home.results.title")}
           </h2>
         </FadeIn>
         <FadeIn className="mb-16 text-center" delay={0.15}>
           <p className="mx-auto max-w-2xl text-white/60">
-            Три десятиліття стабільного зростання, тисячі реалізованих проєктів
-            та мільйони задоволених споживачів.
+            {t("home.results.subtitle")}
           </p>
         </FadeIn>
 
@@ -228,13 +233,13 @@ export function Results() {
           <DashboardCard delay={0.3}>
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-xs font-bold uppercase tracking-widest text-white/40">
-                Контроль якості
+                {t("home.results.qualityControl")}
               </h3>
               <ShieldCheck className="h-4 w-4 text-brand" />
             </div>
-            <AnimatedRing value={99} max={100} label="Відповідність стандартам" />
+            <AnimatedRing value={99} max={100} label={t("home.results.standards") as string} />
             <p className="mt-4 text-center text-xs text-white/40">
-              ISO 9001:2015 · ISO 14001 · ДСТУ
+              {t("home.results.standardsValue")}
             </p>
           </DashboardCard>
 
@@ -242,15 +247,15 @@ export function Results() {
           <DashboardCard delay={0.4}>
             <div className="mb-5 flex items-center justify-between">
               <h3 className="text-xs font-bold uppercase tracking-widest text-white/40">
-                Виробничий цикл
+                {t("home.results.productionCycle")}
               </h3>
               <Clock className="h-4 w-4 text-brand" />
             </div>
             <div className="space-y-4">
-              <ProgressBar label="Розробка формули" value={14} max={30} suffix=" днів" delay={0.5} />
-              <ProgressBar label="Виробництво партії" value={5} max={30} suffix=" днів" delay={0.6} />
-              <ProgressBar label="Тестування якості" value={2} max={30} suffix=" дні" delay={0.7} />
-              <ProgressBar label="Готовність до відвантаження" value={3} max={30} suffix=" дні" delay={0.8} />
+              <ProgressBar label={t("home.results.formulaDev") as string} value={14} max={30} suffix={` ${t("home.results.days")}`} delay={0.5} />
+              <ProgressBar label={t("home.results.batchProd") as string} value={5} max={30} suffix={` ${t("home.results.days")}`} delay={0.6} />
+              <ProgressBar label={t("home.results.qualityTest") as string} value={2} max={30} suffix={` ${t("home.results.testDays")}`} delay={0.7} />
+              <ProgressBar label={t("home.results.readyShip") as string} value={3} max={30} suffix={` ${t("home.results.testDays")}`} delay={0.8} />
             </div>
           </DashboardCard>
 
@@ -258,7 +263,7 @@ export function Results() {
           <DashboardCard delay={0.5}>
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-xs font-bold uppercase tracking-widest text-white/40">
-                Надійність поставок
+                {t("home.results.deliveryReliability")}
               </h3>
               <Truck className="h-4 w-4 text-brand" />
             </div>
@@ -268,11 +273,11 @@ export function Results() {
               </div>
             </div>
             <p className="mb-5 text-center text-sm text-white/50">
-              Вчасна доставка по Україні
+              {t("home.results.deliveryText")}
             </p>
             <div className="flex items-center justify-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-4 py-2 text-xs font-medium text-emerald-400">
               <TrendingUp className="h-3.5 w-3.5" />
-              +3% за останній рік
+              {t("home.results.deliveryGrowth")}
             </div>
           </DashboardCard>
 
@@ -280,19 +285,13 @@ export function Results() {
           <DashboardCard delay={0.6} className="sm:col-span-2">
             <div className="mb-5 flex items-center justify-between">
               <h3 className="text-xs font-bold uppercase tracking-widest text-white/40">
-                Лабораторія R&D
+                {t("home.results.labTitle")}
               </h3>
               <FlaskConical className="h-4 w-4 text-brand" />
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               <div className="space-y-3">
-                {[
-                  "Розробка індивідуальних формул",
-                  "Тестування сировини та готової продукції",
-                  "Аналіз стабільності формул",
-                  "Мікробіологічний контроль",
-                  "Сертифікація та документація",
-                ].map((item) => (
+                {labItems.map((item) => (
                   <div key={item} className="flex items-start gap-2.5">
                     <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
                     <span className="text-sm text-white/70">{item}</span>
@@ -300,9 +299,9 @@ export function Results() {
                 ))}
               </div>
               <div className="space-y-4">
-                <ProgressBar label="Формул на замовлення" value={85} max={100} suffix="%" delay={0.7} />
-                <ProgressBar label="Повторні замовлення" value={92} max={100} suffix="%" delay={0.8} />
-                <ProgressBar label="Успішних запусків" value={97} max={100} suffix="%" delay={0.9} />
+                <ProgressBar label={t("home.results.customFormulas") as string} value={85} max={100} suffix="%" delay={0.7} />
+                <ProgressBar label={t("home.results.repeatOrders") as string} value={92} max={100} suffix="%" delay={0.8} />
+                <ProgressBar label={t("home.results.successLaunches") as string} value={97} max={100} suffix="%" delay={0.9} />
               </div>
             </div>
           </DashboardCard>
@@ -311,14 +310,14 @@ export function Results() {
           <DashboardCard delay={0.7}>
             <div className="mb-4 flex items-center justify-between">
               <h3 className="text-xs font-bold uppercase tracking-widest text-white/40">
-                Мінімальне замовлення
+                {t("home.results.minOrder")}
               </h3>
             </div>
             <div className="space-y-4">
               {[
-                { label: "Private Label", moq: "від 1 000 од.", sub: "Під ваш бренд" },
-                { label: "Контрактне виробництво", moq: "від 500 кг", sub: "За вашою формулою" },
-                { label: "Розробка формули", moq: "від 1 формули", sub: "R&D під задачу" },
+                { label: t("home.results.privateLabelCard"), moq: t("home.results.privateLabelFrom"), sub: t("home.results.privateLabelDesc") },
+                { label: t("home.results.contractCard"), moq: t("home.results.contractFrom"), sub: t("home.results.contractDesc") },
+                { label: t("home.results.rdCard"), moq: t("home.results.rdFrom"), sub: t("home.results.rdDesc") },
               ].map((item) => (
                 <div
                   key={item.label}

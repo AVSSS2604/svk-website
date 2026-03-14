@@ -1,43 +1,48 @@
-import { FlaskConical, Mail, Phone, MapPin } from "lucide-react";
+"use client";
 
-const footerLinks = [
-  {
-    title: "Продукція",
-    links: [
-      { label: "Промислова хімія", href: "#" },
-      { label: "Побутова хімія", href: "#" },
-      { label: "Косметика", href: "#" },
-      { label: "Private Label", href: "#" },
-    ],
-  },
-  {
-    title: "Компанія",
-    links: [
-      { label: "Про нас", href: "#" },
-      { label: "Виробництво", href: "#" },
-      { label: "Лабораторія", href: "#" },
-      { label: "Сертифікати", href: "#" },
-    ],
-  },
-  {
-    title: "Інформація",
-    links: [
-      { label: "Блог", href: "#blog" },
-      { label: "Каталог", href: "#catalog" },
-      { label: "Кар'єра", href: "#" },
-      { label: "Контакти", href: "#contact" },
-    ],
-  },
-];
+import Link from "next/link";
+import { FlaskConical, Mail, Phone, MapPin } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 export function Footer() {
+  const { t } = useI18n();
+
+  const footerLinks = [
+    {
+      title: t("footer.products"),
+      links: [
+        { label: t("footer.industrialLink"), href: "/industrial" },
+        { label: t("footer.householdLink"), href: "/household" },
+        { label: t("footer.cosmeticsLink"), href: "/cosmetics" },
+        { label: t("footer.privateLabelLink"), href: "/private-label" },
+      ],
+    },
+    {
+      title: t("footer.company"),
+      links: [
+        { label: t("footer.aboutLink"), href: "/about" },
+        { label: t("footer.catalogLink"), href: "/catalog" },
+        { label: t("footer.blogLink"), href: "/blog" },
+        { label: t("footer.contactLink"), href: "/contact" },
+      ],
+    },
+    {
+      title: t("footer.info"),
+      links: [
+        { label: t("footer.certificates"), href: "/about" },
+        { label: t("footer.production"), href: "/about" },
+        { label: t("footer.laboratory"), href: "/about" },
+        { label: t("footer.career"), href: "/contact" },
+      ],
+    },
+  ];
   return (
     <footer className="border-t border-border bg-foreground text-white">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-5">
           {/* Company Info */}
           <div className="lg:col-span-2">
-            <div className="mb-6 flex items-center gap-2.5">
+            <Link href="/" className="mb-6 flex items-center gap-2.5">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand text-white">
                 <FlaskConical className="h-5 w-5" />
               </div>
@@ -46,13 +51,12 @@ export function Footer() {
                   СВК
                 </span>
                 <span className="text-[10px] leading-tight text-white/50">
-                  Науково-виробнича фірма
+                  {t("footer.subtitle")}
                 </span>
               </div>
-            </div>
+            </Link>
             <p className="mb-6 max-w-sm text-sm leading-relaxed text-white/60">
-              Розробка та виробництво хімічної продукції з 1993 року.
-              Індивідуальні формули, стабільна якість, масштабне виробництво.
+              {t("footer.description")}
             </p>
             <div className="space-y-3">
               <a
@@ -71,7 +75,7 @@ export function Footer() {
               </a>
               <div className="flex items-start gap-3 text-sm text-white/60">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
-                Україна, м. Київ
+                {t("footer.location")}
               </div>
             </div>
           </div>
@@ -85,12 +89,12 @@ export function Footer() {
               <ul className="space-y-2.5">
                 {group.links.map((link) => (
                   <li key={link.label}>
-                    <a
+                    <Link
                       href={link.href}
                       className="text-sm text-white/50 transition-colors hover:text-brand"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -101,7 +105,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
           <p className="text-xs text-white/40">
-            &copy; {new Date().getFullYear()} СВК. Усі права захищені.
+            &copy; {new Date().getFullYear()} {t("footer.copyright")}
           </p>
         </div>
       </div>
