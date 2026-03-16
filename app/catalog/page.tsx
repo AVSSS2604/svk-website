@@ -19,20 +19,7 @@ import { useI18n } from "@/lib/i18n";
 const categoryIcons = [Filter, Factory, SprayCan, Heart, Tag];
 const categoryIds = ["all", "industrial", "household", "cosmetics", "private-label"];
 
-const productsData = [
-  { id: 1, categoryId: "industrial", image: "/images/product-1.png", volume: "5-200 л" },
-  { id: 2, categoryId: "industrial", image: "/images/product-2.png", volume: "20-200 л" },
-  { id: 3, categoryId: "industrial", image: "/images/product-3.png", volume: "5-50 л" },
-  { id: 4, categoryId: "household", image: "/images/product-4.png", volume: "0.5-5 л" },
-  { id: 5, categoryId: "household", image: "/images/product-1.png", volume: "1-5 л" },
-  { id: 6, categoryId: "household", image: "/images/product-2.png", volume: "0.5-5 л" },
-  { id: 7, categoryId: "cosmetics", image: "/images/products/shampoo-left.png", volume: "250-1000 мл" },
-  { id: 8, categoryId: "cosmetics", image: "/images/products/soap-right.png", volume: "250-1000 мл" },
-  { id: 9, categoryId: "cosmetics", image: "/images/products/bottle-left.png", volume: "300-5000 мл" },
-  { id: 10, categoryId: "private-label", image: "/images/product-3.png", volume: "Від 1000 од." },
-  { id: 11, categoryId: "private-label", image: "/images/product-4.png", volume: "Від 500 од." },
-  { id: 12, categoryId: "private-label", image: "/images/product-1.png", volume: "Від 200 л" },
-];
+import { productsData } from "@/lib/data/products";
 
 export default function CatalogPage() {
   const { t } = useI18n();
@@ -131,48 +118,49 @@ export default function CatalogPage() {
               {filteredProducts.map((product, i) => (
                 <motion.div
                   key={product.id}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all hover:border-brand/20 hover:shadow-xl hover:shadow-brand/5"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: i * 0.05 }}
                 >
-                  {/* Product Image */}
-                  <div className="relative h-48 overflow-hidden bg-surface">
-                    <Image
-                      src={product.image}
-                      alt={product.name}
-                      fill
-                      className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute left-3 top-3">
-                      <span className="inline-flex items-center rounded-full bg-brand/10 px-2.5 py-1 text-[10px] font-semibold text-brand">
-                        {product.application}
-                      </span>
+                  <Link
+                    href={`/catalog/${product.id}`}
+                    className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-white transition-all hover:border-brand/20 hover:shadow-xl hover:shadow-brand/5"
+                  >
+                    {/* Product Image */}
+                    <div className="relative h-48 overflow-hidden bg-surface">
+                      <Image
+                        src={product.image}
+                        alt={product.name}
+                        fill
+                        className="object-contain p-4 transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute left-3 top-3">
+                        <span className="inline-flex items-center rounded-full bg-brand/10 px-2.5 py-1 text-[10px] font-semibold text-brand">
+                          {product.application}
+                        </span>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Content */}
-                  <div className="flex flex-1 flex-col p-5">
-                    <h3 className="mb-2 text-sm font-bold leading-snug text-foreground transition-colors group-hover:text-brand">
-                      {product.name}
-                    </h3>
-                    <p className="mb-4 flex-1 text-xs leading-relaxed text-foreground-secondary">
-                      {product.description}
-                    </p>
+                    {/* Content */}
+                    <div className="flex flex-1 flex-col p-5">
+                      <h3 className="mb-2 text-sm font-bold leading-snug text-foreground transition-colors group-hover:text-brand">
+                        {product.name}
+                      </h3>
+                      <p className="mb-4 flex-1 text-xs leading-relaxed text-foreground-secondary">
+                        {product.description}
+                      </p>
 
-                    <div className="flex items-center justify-between">
-                      <span className="rounded-lg bg-surface px-2.5 py-1 font-mono text-xs font-medium text-foreground-muted">
-                        {product.volume}
-                      </span>
-                      <Link
-                        href="/contact"
-                        className="inline-flex items-center gap-1 text-xs font-semibold text-brand transition-all group-hover:gap-1.5"
-                      >
-                        {t("catalogPage.order")}
-                        <ArrowRight className="h-3 w-3" />
-                      </Link>
+                      <div className="flex items-center justify-between">
+                        <span className="rounded-lg bg-surface px-2.5 py-1 font-mono text-xs font-medium text-foreground-muted">
+                          {product.volume}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-xs font-semibold text-brand transition-all group-hover:gap-1.5">
+                          {t("catalogPage.details")}
+                          <ArrowRight className="h-3 w-3" />
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </motion.div>
               ))}
             </motion.div>
